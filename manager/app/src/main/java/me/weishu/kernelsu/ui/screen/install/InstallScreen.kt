@@ -313,7 +313,7 @@ fun InstallScreen() {
                 }
             }
         },
-        onSelectPartition = { index ->
+        onSelectKmi = { installAfterKmiSelection = false; showChooseKmiDialog.value = true }, onSelectPartition = { index ->
             hasCustomSelected = true
             val method = installMethod
             if (method is InstallMethod.DownloadFile) {
