@@ -171,7 +171,18 @@ internal fun InstallScreenMaterial(
                             },
                             onClick = actions.onSelectLkm
                         )
-                    }
+                    
+                                        
+                                            }
+                    if (uiState.canSelectKmi) add {
+                        SegmentedListItem(
+                            leadingContent = { Icon(Icons.Filled.Edit, null) },
+                            headlineContent = { Text(stringResource(R.string.select_kmi)) },
+                            supportingContent = { Text(uiState.selectedKmi.ifBlank { uiState.currentKmi }) },
+                            trailingContent = { Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, null) },
+                            onClick = actions.onSelectKmi
+                        )
+                    }}
                 }
             )
 
