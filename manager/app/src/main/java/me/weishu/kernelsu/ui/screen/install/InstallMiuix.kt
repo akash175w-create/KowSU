@@ -249,6 +249,26 @@ internal fun InstallScreenMiuix(
                             }
                         }
                     }
+                    if (uiState.canSelectKmi) {
+                        Card(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 12.dp),
+                        ) {
+                            BasicComponent(
+                                title = stringResource(id = R.string.select_kmi),
+                                summary = uiState.selectedKmi.ifBlank { uiState.currentKmi },
+                                onClick = actions.onSelectKmi,
+                                endActions = {
+                                    Icon(
+                                        imageVector = MiuixIcons.Basic.ArrowRight,
+                                        contentDescription = null,
+                                        tint = colorScheme.onSurfaceVariantActions,
+                                    )
+                                }
+                            )
+                        }
+                    }
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
