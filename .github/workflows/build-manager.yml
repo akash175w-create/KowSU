@@ -18,7 +18,7 @@ on:
       - 'Cargo.lock'
       - 'Cargo.toml'
   pull_request:
-    branches: [ "main", "dev" ]
+    branches: [ "main", "dev", "pin/android14-6.1/kowsu" ]
     paths:
       - '.github/workflows/build-manager.yml'
       - '.github/workflows/build-lkm.yml'
