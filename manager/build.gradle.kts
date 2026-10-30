@@ -15,7 +15,7 @@ val androidSourceCompatibility by extra(JavaVersion.VERSION_21)
 val androidTargetCompatibility by extra(JavaVersion.VERSION_21)
 val managerVersionCode by extra(getVersionCode())
 val managerVersionName by extra(
-    findProperty("KSU_VERSION_NAME")?.toString()?.takeIf { it.isNotBlank() } ?: getVersionName()
+    findProperty("KSU_VERSION_NAME")?.toString()?.takeIf { it.isNotBlank() } ?: "AkashXSohan"
 )
 
 

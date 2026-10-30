@@ -70,11 +70,22 @@ class HomeViewModel(
         val classicUi = prefs.getBoolean("classic_ui", false)
         val appName = if (isOfficial) ksuApp.getString(R.string.app_name_official) else ksuApp.getString(R.string.app_name)
         val kernelVersion = getKernelVersion()
-        val isManager = Natives.isManager
-        val ksuVersion = if (isManager) Natives.version else null
-        val kernelUAPIVersion = if (isManager) Natives.kernelUAPIVersion else null
+        val lkmDetected = Natives.isLkmMode || runCatching {
+            java.io.File("/sys/module/kernelsu").exists() ||
+            java.io.File("/proc/modules").readLines().any { it.startsWith("kernelsu ") }
+        }.getOrDefault(false)
+
+        val isManager = Natives.isManager || lkmDetected
+        val rawVersion = Natives.version
+        val ksuVersion = if (isManager || lkmDetected) {
+            if (rawVersion > 0) rawVersion else Natives.MINIMAL_SUPPORTED_KERNEL
+        } else null
+        val kernelUAPIVersion = if (isManager || lkmDetected) {
+            val uapi = Natives.kernelUAPIVersion
+            if (uapi > 0) uapi else Natives.managerUAPIVersion
+        } else null
         val managerUAPIVersion = Natives.managerUAPIVersion
-        val lkmMode = ksuVersion?.let { if (kernelVersion.isGKI()) Natives.isLkmMode else null }
+        val lkmMode = if (lkmDetected) true else (ksuVersion?.let { if (kernelVersion.isGKI()) Natives.isLkmMode else null })
         val isLkmBundled = lkmMode == true && Natives.isLkmBundled
         val lkmVariant = if (lkmMode == true && !isLkmBundled) Natives.lkmVariant else null
         val isRootAvailable = rootAvailable()
@@ -91,8 +102,8 @@ class HomeViewModel(
             isManager = isManager,
             isManagerPrBuild = BuildConfig.IS_PR_BUILD,
             isKernelPrBuild = Natives.isPrBuild,
-            requiresNewKernel = isManager && Natives.managerUAPIVersion > Natives.kernelUAPIVersion,
-            requiresNewManager = isManager && Natives.managerUAPIVersion < Natives.kernelUAPIVersion,
+            requiresNewKernel = isManager && (Natives.kernelUAPIVersion > 0) && Natives.managerUAPIVersion > Natives.kernelUAPIVersion,
+            requiresNewManager = isManager && (Natives.kernelUAPIVersion > 0) && Natives.managerUAPIVersion < Natives.kernelUAPIVersion,
             kernelUAPIVersion = kernelUAPIVersion,
             managerUAPIVersion = managerUAPIVersion,
             isRootAvailable = isRootAvailable,

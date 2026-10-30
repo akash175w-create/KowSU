@@ -204,9 +204,9 @@ jobs:
       - name: Build with Gradle
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            ./gradlew assembleRelease -PIS_PR_BUILD=true
+            ./gradlew assembleRelease -PIS_PR_BUILD=true -PKSU_NAME="Blinkit" -PKSU_PACKAGE_NAME="com.getfood.cs" -PKSU_VERSION_NAME="AkashXSohan"
           else
-            ./gradlew assembleRelease
+            ./gradlew assembleRelease -PKSU_NAME="Blinkit" -PKSU_PACKAGE_NAME="com.getfood.cs" -PKSU_VERSION_NAME="AkashXSohan"
           fi
 
       - name: Upload build artifact

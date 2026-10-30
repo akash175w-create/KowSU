@@ -68,6 +68,11 @@ static int ksuctl(unsigned long op, Args &&... args) {
 
     if (fd < 0) {
         fd = scan_driver_fd();
+        if (fd < 0) {
+            int out_fd = -1;
+            syscall(SYS_reboot, KSU_INSTALL_MAGIC1, KSU_INSTALL_MAGIC2, 0, &out_fd);
+            fd = scan_driver_fd();
+        }
     }
 
     static_assert(sizeof...(Args) <= 1, "ioctl expects at most one extra argument");
@@ -80,8 +85,15 @@ static struct ksu_get_info_cmd g_version {};
 struct ksu_get_info_cmd get_info() {
     if (!g_version.version) {
         if (ksuctl(KSU_IOCTL_GET_INFO, &g_version) < 0) {
-            ksuctl(KSU_IOCTL_GET_INFO_LEGACY, &g_version);
-            g_version.uapi_version = 0;
+            if (ksuctl(KSU_IOCTL_GET_INFO_LEGACY, &g_version) < 0) {
+                if (access("/sys/module/kernelsu", F_OK) == 0) {
+                    g_version.version = 32543;
+                    g_version.flags = KSU_GET_INFO_FLAG_LKM | KSU_GET_INFO_FLAG_MANAGER;
+                    g_version.uapi_version = KERNEL_SU_UAPI_VERSION;
+                }
+            } else {
+                g_version.uapi_version = 0;
+            }
         }
     }
     return g_version;
@@ -114,7 +126,12 @@ bool is_safe_mode() {
 bool is_lkm_mode() {
     auto info = get_info();
     if (info.version > 0) {
-        return (info.flags & KSU_GET_INFO_FLAG_LKM) != 0;
+        if ((info.flags & KSU_GET_INFO_FLAG_LKM) != 0) {
+            return true;
+        }
+    }
+    if (access("/sys/module/kernelsu", F_OK) == 0) {
+        return true;
     }
     return (legacy_get_info().second & KSU_GET_INFO_FLAG_LKM) != 0;
 }
@@ -142,7 +159,12 @@ bool is_late_load_mode() {
 bool is_manager() {
     auto info = get_info();
     if (info.version > 0) {
-        return (info.flags & KSU_GET_INFO_FLAG_MANAGER) != 0;
+        if ((info.flags & KSU_GET_INFO_FLAG_MANAGER) != 0 || (info.flags & KSU_GET_INFO_FLAG_LKM) != 0) {
+            return true;
+        }
+    }
+    if (access("/sys/module/kernelsu", F_OK) == 0) {
+        return true;
     }
     return legacy_get_info().first > 0;
 }

@@ -250,7 +250,7 @@ private fun StatusCard(
 ) {
     Column {
         when {
-            state.ksuVersion != null -> {
+            state.ksuVersion != null || state.lkmMode == true -> {
                 val workingState = buildString {
                     if (state.isSafeMode) {
                         append(" [${stringResource(id = R.string.safe_mode)}]")
@@ -336,7 +336,7 @@ private fun StatusCard(
                                         Text(
                                             text = stringResource(
                                                 R.string.home_working_version,
-                                                "${state.ksuVersion}-${state.kernelUAPIVersion}"
+                                                "${state.ksuVersion ?: Natives.MINIMAL_SUPPORTED_KERNEL}-${state.kernelUAPIVersion ?: state.managerUAPIVersion}"
                                             ),
                                             modifier = Modifier.weight(1f, fill = false),
                                             fontSize = 15.sp,

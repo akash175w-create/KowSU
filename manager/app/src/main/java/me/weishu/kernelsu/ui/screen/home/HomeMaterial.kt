@@ -208,7 +208,7 @@ private fun StatusCard(
         return
     }
     Column(verticalArrangement = Arrangement.spacedBy(13.dp)) {
-        val ksuActive = state.ksuVersion != null
+        val ksuActive = state.ksuVersion != null || state.lkmMode == true
         val notInstalled = !ksuActive && state.kernelVersion.isGKI()
 
         val containerColor = if (ksuActive) {
@@ -229,7 +229,7 @@ private fun StatusCard(
             else -> stringResource(R.string.home_unsupported)
         }
         val statusSummary = when {
-            ksuActive -> stringResource(R.string.home_working_version, "${state.ksuVersion}-${state.kernelUAPIVersion}")
+            ksuActive -> stringResource(R.string.home_working_version, "${state.ksuVersion ?: Natives.MINIMAL_SUPPORTED_KERNEL}-${state.kernelUAPIVersion ?: state.managerUAPIVersion}")
             notInstalled -> stringResource(R.string.home_click_to_install)
             else -> stringResource(R.string.home_unsupported_reason)
         }
@@ -342,7 +342,7 @@ private fun ClassicStatusCard(
     actions: HomeActions,
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(13.dp)) {
-        val ksuActive = state.ksuVersion != null
+        val ksuActive = state.ksuVersion != null || state.lkmMode == true
         val notInstalled = !ksuActive && state.kernelVersion.isGKI()
         val classicCounts by produceState<Pair<Int, Int>?>(initialValue = null, key1 = ksuActive) {
             value = if (ksuActive) {
@@ -364,7 +364,7 @@ private fun ClassicStatusCard(
             else -> stringResource(R.string.home_unsupported)
         }
         val statusSummary = when {
-            ksuActive -> stringResource(R.string.home_working_version, "${state.ksuVersion}-${state.kernelUAPIVersion}")
+            ksuActive -> stringResource(R.string.home_working_version, "${state.ksuVersion ?: Natives.MINIMAL_SUPPORTED_KERNEL}-${state.kernelUAPIVersion ?: state.managerUAPIVersion}")
             notInstalled -> stringResource(R.string.home_click_to_install)
             else -> stringResource(R.string.home_unsupported_reason)
         }
