@@ -263,7 +263,7 @@ fun InstallScreen() {
         displayPartitions = displayPartitions,
         remoteDisplayPartitions = remoteDisplayPartitions,
         remotePartitionSelectionIndex = remotePartitionSelectionIndex,
-        currentKmi = currentKmi,
+        currentKmi = currentKmi, canSelectKmi = installMethod is InstallMethod.SelectFile && lkmVariant != LkmVariant.CUSTOM, selectedKmi = when (val selection = lkmSelection) { is LkmSelection.KmiString -> selection.value; is LkmSelection.KmiStringXX -> selection.value; else -> "" },
         slotSuffix = slotSuffix,
         installMethodOptions = installMethodOptions,
         canSelectPartition = installMethod is InstallMethod.DirectInstall ||
