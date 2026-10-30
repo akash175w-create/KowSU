@@ -182,7 +182,7 @@ internal fun InstallScreenMaterial(
                             trailingContent = { Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, null) },
                             onClick = actions.onSelectKmi
                         )
-                    }}
+                    }
                 }
             )
 
