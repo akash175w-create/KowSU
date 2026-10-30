@@ -86,9 +86,16 @@ jobs:
 
         echo "=== Build completed ==="
 
+        # Create output directory in GitHub workspace
         mkdir -p /github/workspace/out
+
+        # Copy with xx- prefix and KMI-specific naming
         OUTPUT_NAME="xx-${{ matrix.kmi }}_kernelsu.ko"
-        cp kernelsu.ko "/github/workspace/out/$OUTPUT_NAME"
+        if [ -f kernelsu.ko ]; then
+          cp kernelsu.ko "/github/workspace/out/$OUTPUT_NAME"
+        elif [ -f ksu.ko ]; then
+          cp ksu.ko "/github/workspace/out/$OUTPUT_NAME"
+        fi
 
         echo "Copied to: /github/workspace/out/$OUTPUT_NAME"
         ls -la "/github/workspace/out/$OUTPUT_NAME"
