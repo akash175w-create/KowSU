@@ -65,7 +65,7 @@ fun InstallScreen() {
     val showLkmDialog = rememberSaveable { mutableStateOf(false) }
     var partitionSelectionIndex by rememberSaveable { mutableIntStateOf(0) }
     var hasCustomSelected by rememberSaveable { mutableStateOf(false) }
-    val showChooseKmiDialog = rememberSaveable { mutableStateOf(false) }
+    val showChooseKmiDialog = rememberSaveable { mutableStateOf(false) }; var installAfterKmiSelection by rememberSaveable { mutableStateOf(false) }
     var advancedOptionsShown by rememberSaveable { mutableStateOf(false) }
     var allowShell by rememberSaveable { mutableStateOf(false) }
     var enableAdb by rememberSaveable { mutableStateOf(false) }
