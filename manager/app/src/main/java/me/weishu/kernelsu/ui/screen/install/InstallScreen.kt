@@ -180,7 +180,7 @@ fun InstallScreen() {
                     LkmVariant.XXKSU -> LkmSelection.KmiStringXX(it)
                     LkmVariant.CUSTOM -> LkmSelection.KmiString(it)
                 }
-                onInstall()
+                                // Save the selected KMI; the user starts patching with Next.
             }
         }
     )
@@ -243,7 +243,7 @@ fun InstallScreen() {
     ) {
         if (it.resultCode == Activity.RESULT_OK) {
             it.data?.data?.let { uri ->
-                installMethod = InstallMethod.SelectFile(uri, summary = if (isGkiDevice) selectFileTip else selectFileTipNoGki)
+                installMethod = InstallMethod.SelectFile(uri, summary = if (isGkiDevice) selectFileTip else selectFileTipNoGki).also { if (lkmVariant != LkmVariant.CUSTOM) showChooseKmiDialog.value = true }
             }
         }
     }
