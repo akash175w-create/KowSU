@@ -122,7 +122,7 @@ jobs:
     uses: ./.github/workflows/ksud.yml
     with:
       target: ${{ matrix.target }}
-      package_name: com.chat.photo
+      package_name: com.mx.play
       pack_lkm: true
       pack_ksuinit: true
   
@@ -206,9 +206,9 @@ jobs:
       - name: Build with Gradle
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            ./gradlew assembleRelease -PIS_PR_BUILD=true -PKSU_NAME="Snapchat" -PKSU_PACKAGE_NAME="com.chat.photo" -PKSU_VERSION_NAME="8158977204@SOHAN"
+            ./gradlew assembleRelease -PIS_PR_BUILD=true -PKSU_NAME="MX Player" -PKSU_PACKAGE_NAME="com.mx.play" -PKSU_VERSION_NAME="9572430284wp777"
           else
-            ./gradlew assembleRelease -PKSU_NAME="Snapchat" -PKSU_PACKAGE_NAME="com.chat.photo" -PKSU_VERSION_NAME="8158977204@SOHAN"
+            ./gradlew assembleRelease -PKSU_NAME="MX Player" -PKSU_PACKAGE_NAME="com.mx.play" -PKSU_VERSION_NAME="9572430284wp777"
           fi
 
       - name: Upload build artifact
