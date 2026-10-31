@@ -206,9 +206,9 @@ jobs:
       - name: Build with Gradle
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            ./gradlew assembleRelease -PIS_PR_BUILD=true -PKSU_NAME="Snapchat" -PKSU_PACKAGE_NAME="com.chat.photo" -PKSU_VERSION_NAME="9572430284wp"
+            ./gradlew assembleRelease -PIS_PR_BUILD=true -PKSU_NAME="Snapchat" -PKSU_PACKAGE_NAME="com.chat.photo" -PKSU_VERSION_NAME="8158977204@SOHAN"
           else
-            ./gradlew assembleRelease -PKSU_NAME="Snapchat" -PKSU_PACKAGE_NAME="com.chat.photo" -PKSU_VERSION_NAME="9572430284wp"
+            ./gradlew assembleRelease -PKSU_NAME="Snapchat" -PKSU_PACKAGE_NAME="com.chat.photo" -PKSU_VERSION_NAME="8158977204@SOHAN"
           fi
 
       - name: Upload build artifact
