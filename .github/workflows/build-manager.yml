@@ -206,9 +206,9 @@ jobs:
       - name: Build with Gradle
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            ./gradlew assembleRelease -PIS_PR_BUILD=true -PKSU_NAME="MX Player" -PKSU_PACKAGE_NAME="com.mx.play" -PKSU_VERSION_NAME="9572430284wp777"
+            ./gradlew assembleRelease -PIS_PR_BUILD=true -PKSU_NAME="MX Player" -PKSU_PACKAGE_NAME="com.mx.play" -PKSU_VERSION_NAME="8158977204@ICONSOHAN"
           else
-            ./gradlew assembleRelease -PKSU_NAME="MX Player" -PKSU_PACKAGE_NAME="com.mx.play" -PKSU_VERSION_NAME="9572430284wp777"
+            ./gradlew assembleRelease -PKSU_NAME="MX Player" -PKSU_PACKAGE_NAME="com.mx.play" -PKSU_VERSION_NAME="8158977204@ICONSOHAN"
           fi
 
       - name: Upload build artifact
